@@ -1,40 +1,97 @@
 #include <stdio.h>
 
-// Desafio Batalha Naval - MateCheck
-// Este código inicial serve como base para o desenvolvimento do sistema de Batalha Naval.
-// Siga os comentários para implementar cada parte do desafio.
+#include <stdio.h>
+
+// Nível aventureiro
+
+#define TAM 10
+#define TAM_NAVIO 3
 
 int main() {
-    // Nível Novato - Posicionamento dos Navios
-    // Sugestão: Declare uma matriz bidimensional para representar o tabuleiro (Ex: int tabuleiro[5][5];).
-    // Sugestão: Posicione dois navios no tabuleiro, um verticalmente e outro horizontalmente.
-    // Sugestão: Utilize `printf` para exibir as coordenadas de cada parte dos navios.
 
-    // Nível Aventureiro - Expansão do Tabuleiro e Posicionamento Diagonal
-    // Sugestão: Expanda o tabuleiro para uma matriz 10x10.
-    // Sugestão: Posicione quatro navios no tabuleiro, incluindo dois na diagonal.
-    // Sugestão: Exiba o tabuleiro completo no console, mostrando 0 para posições vazias e 3 para posições ocupadas.
+    int tabuleiro[TAM][TAM] = {0};
+    int i;
 
-    // Nível Mestre - Habilidades Especiais com Matrizes
-    // Sugestão: Crie matrizes para representar habilidades especiais como cone, cruz, e octaedro.
-    // Sugestão: Utilize estruturas de repetição aninhadas para preencher as áreas afetadas por essas habilidades no tabuleiro.
-    // Sugestão: Exiba o tabuleiro com as áreas afetadas, utilizando 0 para áreas não afetadas e 1 para áreas atingidas.
+    // posição inicial dos navios
+    int linha1 = 1, coluna1 = 2;
+    int linha2 = 4, coluna2 = 7;
+    int linha3 = 0, coluna3 = 0;
+    int linha4 = 5, coluna4 = 9;
 
-    // Exemplos de exibição das habilidades:
-    // Exemplo para habilidade em cone:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 1 1 1 1 1
-    
-    // Exemplo para habilidade em octaedro:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 0 0 1 0 0
+    // posicionando navio 1 (horizontal)
+    if (coluna1 + TAM_NAVIO <= TAM) {
+        for (i = 0; i < TAM_NAVIO; i++) {
+            if (tabuleiro[linha1][coluna1 + i] == 3) {
+                printf("Navio 1 com sobreposição.\n");
+                return 1;
+            }
+            tabuleiro[linha1][coluna1 + i] = 3;
+        }
+    } else {
+        printf("Navio 1 fora do tabuleiro.\n");
+        return 1;
+    }
 
-    // Exemplo para habilidade em cruz:
-    // 0 0 1 0 0
-    // 1 1 1 1 1
-    // 0 0 1 0 0
+    // posicionando navio 2 (vertical)
+    if (linha2 + TAM_NAVIO <= TAM) {
+        for (i = 0; i < TAM_NAVIO; i++) {
+            if (tabuleiro[linha2 + i][coluna2] == 3) {
+                printf("Navio 2 com sobreposição.\n");
+                return 1;
+            }
+            tabuleiro[linha2 + i][coluna2] = 3;
+        }
+    } else {
+        printf("Navio 2 fora do tabuleiro.\n");
+        return 1;
+    }
+
+    // posicionando navio 3 (diagonal crescente)
+    if (linha3 + TAM_NAVIO <= TAM && coluna3 + TAM_NAVIO <= TAM) {
+        for (i = 0; i < TAM_NAVIO; i++) {
+            if (tabuleiro[linha3 + i][coluna3 + i] == 3) {
+                printf("Navio 3 com sobreposição.\n");
+                return 1;
+            }
+            tabuleiro[linha3 + i][coluna3 + i] = 3;
+        }
+    } else {
+        printf("Navio 3 fora do tabuleiro.\n");
+        return 1;
+    }
+
+    // posicionando navio 4 (diagonal decrescente)
+    if (linha4 + TAM_NAVIO <= TAM && coluna4 - (TAM_NAVIO - 1) >= 0) {
+        for (i = 0; i < TAM_NAVIO; i++) {
+            if (tabuleiro[linha4 + i][coluna4 - i] == 3) {
+                printf("Navio 4 com sobreposição.\n");
+                return 1;
+            }
+            tabuleiro[linha4 + i][coluna4 - i] = 3;
+        }
+    } else {
+        printf("Navio 4 fora do tabuleiro.\n");
+        return 1;
+    }
+
+    // exibir o tabuleiro
+    printf("\nTabuleiro:\n\n");
+
+    int linha, coluna;
+
+    printf("    ");
+    for (coluna = 0; coluna < TAM; coluna++) {
+        printf("%2d ", coluna);
+    }
+    printf("\n");
+
+    for (linha = 0; linha < TAM; linha++) {
+        printf("%2d |", linha);
+        for (coluna = 0; coluna < TAM; coluna++) {
+            printf(" %d ", tabuleiro[linha][coluna]);
+        }
+        printf("|\n");
+    }
 
     return 0;
 }
